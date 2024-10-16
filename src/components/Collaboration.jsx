@@ -3,8 +3,32 @@ import { collabApps, collabContent, collabText } from "../constants";
 import Button from "./Button";
 import Section from "./Section";
 import { LeftCurve, RightCurve } from "./design/Collaboration";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import ScrollTrigger from "gsap/all";
+import { useEffect, useRef } from "react";
+gsap.registerPlugin(ScrollTrigger);
 
 const Collaboration = () => {
+  const collabRef = useRef([]);
+  const iconRef = useRef([]);
+  useGSAP(() => {
+    collabRef.current.forEach((icon, index) => {
+      gsap.to(icon, {
+        rotation: "+=360_short",
+        duration: 30,
+        repeat: -1,
+        ease: "none",
+      });
+
+      gsap.to(iconRef.current[index], {
+        rotation: "-=360_short",
+        duration: 30,
+        repeat: -1,
+        ease: "none",
+      });
+    });
+  }, []);
   return (
     <Section crosses>
       <div className="container lg:flex">
@@ -44,22 +68,28 @@ const Collaboration = () => {
               {collabApps.map((app, index) => (
                 <li
                   key={app.id}
-                  className={`absolute top-0 left-1/2 h-1/2 -ml-[1.6rem] origin-bottom   rotate-${
+                  ref={(el) => {
+                    collabRef.current[index] = el;
+                  }}
+                  className={`absolute top-0 left-1/2 h-1/2 -ml-[1.6rem] origin-bottom rotate-${
                     index * 45
                   }`}
                 >
                   <div
+                    ref={(el) => {
+                      iconRef.current[index] = el;
+                    }}
                     className={`relative -top-[1.6rem] flex w-[3.2rem] h-[3.2rem] bg-n-7 border border-n-1/15 rounded-xl -rotate-${
                       index * 45
                     }`}
                   >
-                  <img
-                    className="m-auto"
-                    width={app.width}
-                    height={app.height}
-                    alt={app.title}
-                    src={app.icon}
-                  />
+                    <img
+                      className="m-auto"
+                      width={app.width}
+                      height={app.height}
+                      alt={app.title}
+                      src={app.icon}
+                    />
                   </div>
                 </li>
               ))}

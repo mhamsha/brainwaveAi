@@ -6,12 +6,14 @@ import { navigation } from "../constants";
 import Button from "./Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
-import { useEffect, useRef, useState } from "react";
+import {  useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const pathname = useLocation();
+  const pathNameModified = "/" + pathname.hash;
   const [openNavigation, setOpenNavigation] = useState(false);
 
   const toggleNavigation = () => {
@@ -43,7 +45,6 @@ const Header = () => {
           y: "4rem",
         },
         {
-          
           opacity: 1,
           y: 0,
           duration: 0.8,
@@ -51,7 +52,7 @@ const Header = () => {
           ease: "power2.out",
         }
       );
-    } 
+    }
   }, [openNavigation]);
 
   return (
@@ -61,7 +62,7 @@ const Header = () => {
       }`}
     >
       <div className="flex items-center px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
-        <a className="block w-[12rem] xl:mr-8" href="#hero">
+        <a className="block w-[12rem] xl:mr-8" href="/#hero">
           <img src={brainwave} width={190} height={40} alt="Brainwave" />
         </a>
 
@@ -72,31 +73,52 @@ const Header = () => {
           } fixed top-[5rem] left-0 right-0 bottom-0 bg-n-8 lg:static lg:flex lg:mx-auto lg:bg-transparent `}
         >
           <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row ">
-            {navigation.map((item, i) => (
-              <a
-                ref={(el) => (navItemsRef.current[i] = el)}
-                key={item.id}
-                href={item.url}
-                onClick={handleClick}
-                className={`${item.onlyMobile ? "lg:hidden" : "block"} relative font-code text-2xl uppercase md:text-n-1 text-color-1 transition-colors md:hover:text-color-1  px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold ${
-                  item.url === pathname.hash ? "z-2 lg:text-n-1" : "lg:text-n-1/50"
-                } lg:leading-5 lg:hover:text-n-1 xl:px-12 `}
-              >
-                {item.title}
-              </a>
-            ))}
+            {navigation.map((item, i) =>
+              item.onlyMobile ? (
+                <Link
+                  ref={(el) => (navItemsRef.current[i] = el)}
+                  key={item.id}
+                  to={item.url}
+                  onClick={handleClick}
+                  className={`block lg:hidden relative font-code text-2xl uppercase md:text-n-1 text-color-1 transition-colors md:hover:text-color-1  px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold ${
+                    item.url  === pathname.pathname ? "z-2 text-n-1" : "lg:text-n-1/50"
+                  } lg:leading-5 lg:hover:text-n-1 xl:px-12 `}
+                >
+                  {item.title}
+                </Link>
+              ) : (
+                <a
+                  ref={(el) => (navItemsRef.current[i] = el)}
+                  key={item.id}
+                  href={item.url}
+                  onClick={handleClick}
+                  className={` relative font-code text-2xl uppercase md:text-n-1 text-color-1 transition-colors md:hover:text-color-1  px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold ${
+                    item.url === pathNameModified ? "z-2 text-n-1" : "lg:text-n-1/50"
+                  } lg:leading-5 lg:hover:text-n-1 xl:px-12 `}
+                >
+                  {item.title}
+                </a>
+              )
+            )}
           </div>
 
           <HamburgerMenu />
         </nav>
 
-        <a
-          href="#signup"
-          className="button hidden mr-8 text-n-1/50 transition-colors hover:text-n-1 lg:block"
+        <Link
+          to="/signup"
+          className={`button hidden mr-8 text-n-1/50 transition-colors hover:text-n-1 lg:block ${
+            "/signup" === pathname.pathname ? "z-2 text-n-1" : "lg:text-n-1/50"
+          }`}
         >
           New account
-        </a>
-        <Button className="hidden lg:flex" href="#login">
+        </Link>
+        <Button
+          className={`hidden lg:flex ${
+            "/login" === pathname.pathname ? "z-2 text-n-1" : "lg:text-n-1/50"
+          }`}
+          to="/login"
+        >
           Sign in
         </Button>
 

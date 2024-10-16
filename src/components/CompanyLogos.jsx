@@ -41,7 +41,7 @@ const CompanyLogos = ({ className }) => {
   // });
 
   return (
-    <div className={`${className} hidden md:block`}>
+    <div className={`${className} hidden lg:block`}>
       <h5 className="tagline mb-6 text-center text-n-1/50 ">
         Helping people create beautiful content at
       </h5>

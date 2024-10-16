@@ -10,7 +10,6 @@ import Notification from "./Notification";
 import CompanyLogos from "./CompanyLogos";
 
 const Hero = () => {
-
   return (
     <Section
       className="pt-[12rem] -mt-[5.25rem]"
@@ -19,7 +18,7 @@ const Hero = () => {
       customPaddings
       id="hero"
     >
-      <div className="container relative" >
+      <div className="container relative">
         <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem]">
           <h1 className="h1 mb-6">
             Explore the Possibilities of&nbsp;AI&nbsp;Chatting with {` `}
@@ -38,7 +37,7 @@ const Hero = () => {
             Unleash the power of AI within Brainwave. Upgrade your productivity with Brainwave, the
             open AI chat app.
           </p>
-          <Button href="/pricing" white>
+          <Button href="#pricing" white>
             Get started
           </Button>
         </div>
